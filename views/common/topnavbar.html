@@ -1,0 +1,64 @@
+<div class="row border-bottom white-bg">
+    <nav class="navbar navbar-primary" role="navigation">
+        <div class="navbar-header" style="width:8%; ">
+            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                <i class="fa fa-reorder"></i>
+            </button>
+            <a ui-sref="worktop.myHome" href="javascript:void(0)" class="navbar-brand"></a>
+        </div>
+        <div class="navbar-collapse collapse" style="margin-left: 8%;" id="navbar">
+            <ul class="nav navbar-nav">
+               <!-- 后台动态生成的菜单 -->
+          	   <li uib-dropdown ng-repeat="menu in frontMenus track by $index">
+                   <a href uib-dropdown-toggle> {{menu.name}} <span class="caret"></span></a>
+                   <ul role="menu" uib-dropdown-menu>
+                   	<li ui-sref-active="active" ng-repeat="item in menu.children "><a ui-sref="{{item.alias}}">{{ item.name }}</a></li>
+                   </ul>
+               </li>
+            </ul>
+            
+            <ul class="nav navbar-top-links navbar-right">
+	            <li uib-dropdown>
+	                <a class="count-info" href uib-dropdown-toggle>
+	                    Language
+	                </a>
+	                <ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
+	                    <li ng-repeat="language in i18nMessageType" > 
+	                    	<a  ng-click="changeLanguage(language.type)" >
+	                    		<span ng-class="{'text-success':lang ==  language.type}" ng-bind="language.desc" ></span>
+	                    	</a>
+	                    </li>
+	                </ul>
+	            </li>
+				<li  uib-dropdown ng-mouseleave="showtimes = false">
+					<ul ng-if="showtimes" >
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								白天<input type="checkbox"  ng-model="style" />黑夜
+							</div>
+
+						</div>
+					</ul>
+				</li>
+	            <li uib-dropdown>
+	                <a class="count-info" href uib-dropdown-toggle>
+	                	{{ $root.currentUserName }} <span class="caret"></span>
+	                </a>
+	                <ul uib-dropdown-menu class="animated fadeInRight m-t-xs">
+	                    <li><a ng-click="modifyPwd()"><i class="fa fa-lock"></i> {{ 'topnavbar_modifyPassword' | translate }}</a></li>
+						<li>
+							<!--ng-mouseleave="showtimes = false"-->
+							<a ng-click="chooseStyle()"><i class="fa fa-server"></i>  {{ 'topnavbar_switchSkin' | translate }}</a>
+
+						</li>
+	                    <li><a ng-click="logout()"><i class="fa fa-sign-out"></i> {{'logout' | translate}}</a></li>
+	                </ul>
+	            </li>
+	        </ul>
+        </div>
+    </nav>
+</div>
+<!-- ui router tabs -->
+<div class="row no-margins white-bg border-bottom" id="tabsContainer">
+	<div ui-tabs data="tabData" type="pills" class="col-md-10 col-md-offset-1"></div>
+</div>

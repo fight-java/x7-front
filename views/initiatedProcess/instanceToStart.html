@@ -1,0 +1,13 @@
+<div class="animated fadeInRight" full-scroll ng-controller="instanceToStartCtrl" style="min-height: 700px;">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="toolbar-panel">
+			<div class="buttons bpm-btn-group">
+				<div ht-bpm-buttons></div>
+			</div>
+		</div>
+		<div ht-bpm-manager="{defId:{{defId}},proInstId:{{proInstId}},params:{{params}}}"></div>
+		<a href="javascript:void(0)" ng-click="routeToback()" class="btn btn-danger btn-sm tab-return-btn" style="top: 9px;">
+			<i class="fa fa-undo"></i> {{'go_back' | translate}} 
+		</a>
+	</div>
+</div>

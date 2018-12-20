@@ -1,0 +1,280 @@
+<div style="height:100%" ng-controller="flowImageCtrl">
+	<div style="margin: 10px;height: 40px;">
+		<div class="target">
+			<div class="icon" style="background: #FF0000;"></div>
+			<span>{{'processMatters_pending' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #F89800;"></div>
+			<span>{{'processMatters_submit' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #FFE76E;"></div>
+			<span>{{'processMatters_resubmit' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #00FF00;"></div>
+			<span>{{'processMatters_agreed_to' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #C33A1F;"></div>
+			<span>{{'processMatters_hang' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #0000FF;"></div>
+			<span>{{'processMatters_against' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #8A0902;"></div>
+			<span>{{'processMatters_rejected' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #FFA500;"></div>
+			<span>{{'processMatters_reject_to_the_originator' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #023B62;"></div>
+			<span>{{'processMatters_undo' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #F23B62;"></div>
+			<span>{{'processMatters_revoke_to_originator' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #338848;"></div>
+			<span>{{'processMatters_countersigned_by' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #82B7D7;"></div>
+			<span>{{'processMatters_countersign' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #EEAF97;"></div>
+			<span>{{'processMatters_to_abort' | translate}}</span>
+		</div>
+		<div class="target">
+			<div class="icon" style="background: #4A4A4A;"></div>
+			<span>{{'processMatters_complete' | translate}} </span>
+		</div>
+		<div ng-if="parentInstId!=null&&parentInstId!=0" class="target">
+			<a style="cursor:pointer;" href="javascript:void(0);" ng-click="showFlowMap(parentInstId)"><i class='fa fa-map'></i>{{'processMatters_view_the_main_flow_diagram' | translate}}</a>
+		</div>
+	</div>
+	<div id="divContainer" style="overflow: auto;min-height:500px;">
+          <div ng-if="bpmProcessInstanceList" ng-repeat="instance in bpmProcessInstanceList" id="imageContainer" style="margin-top:40px;position:relative;background: url({{getImageBase64(instance.bpmnInstId,instance.procDefId )}}) no-repeat;width:{{bpmDefLayout.width}}px;height:{{bpmDefLayout.height}}px;">
+          	  <div ng-repeat="layout in bpmDefLayout.listLayout" ng-if="layout.nodeType == 'CALLACTIVITY'" class="flowNode"  ng-click="showFlowMap(instId,layout.nodeId,layout.nodeType,'subFlow')"  ht-bpm-image="{instId:instId,nodeId:layout.nodeId,nodeType:layout.nodeType}" style="position:absolute;left:{{layout.x}}px;top:{{layout.y}}px;width:{{layout.width}}px;height:{{layout.height}}px;"></div>
+	   		  <div ng-repeat="layout in bpmDefLayout.listLayout" ng-if="layout.nodeType != 'CALLACTIVITY'" class="flowNode" ht-bpm-image="{instId:instId,nodeId:layout.nodeId,nodeType:layout.nodeType}" style="position:absolute;left:{{layout.x}}px;top:{{layout.y}}px;width:{{layout.width}}px;height:{{layout.height}}px;"></div>
+	   </div>
+	   <div ng-if="!bpmProcessInstanceList||bpmProcessInstanceList.length<1" style="margin-top:40px;position:relative;background:url({{getImageBase64ByDefId()}}) no-repeat;width:{{bpmDefLayout.width}}px;height:{{bpmDefLayout.height}}px;">
+	   </div>
+	</div>
+</div>
+<style type="text/css">
+div.icon {
+	border: 1px solid #868686;
+	line-height: 10px;
+	width: 10px;
+	height: 10px;
+	float: left;
+	overflow: hidden;
+	margin-top: 3px;
+}
+
+.target span {
+	margin: 0 10px 0 3px;
+	font-size: 12px;
+	font-weight: bold;
+	float: left;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+div.qtip{
+	min-width:280px;
+}
+#taskImage{
+	margin:10px;
+	min-height:100px;
+	position:relative;
+}
+</style>
+<script>
+	var paper = null,
+		animationMs = 500,
+		animationEasing = '>',
+		dispearDelay = 2000,
+		deviation = 5,
+		amendX = 0,
+		amendY = 0,
+		defaultStyle = {"stroke" : "red", "stroke-width" : "3px"};
+	
+	function initPaper(){
+		var imageContainer = $("#imageContainer"),
+			containerWidth = imageContainer.width(),
+			containerHeight = imageContainer.height();
+		
+		paper = Raphael("imageContainer", containerWidth, containerHeight);  
+	}
+	
+	function handle(c, i){
+		setTimeout(function(){
+			if(c.type=='event'){
+				amendPoint(c.point);
+				circle(c);
+			}
+			if(c.type=='line'){
+				for(var i=0,m;m=c.points[i++];){
+					amendPoint(m);
+				}
+				edge(c);
+			}
+			if(c.type=='rect'){
+				amendPoint(c.point);
+				rect(c);
+			}
+			if(c.type=='diamond'){
+				amendPoint(c.point);
+				diamond(c);
+			}
+		}, (c.sn-1)*animationMs);
+	}
+	
+	// 坐标点修正
+	function amendPoint(point){
+		point.x = Math.round(point.x - amendX);
+		point.y = Math.round(point.y - amendY);
+	}
+	
+	// 绘制矩形
+	function rect(c){
+		var x=c.point.x,
+			y=c.point.y,
+			width=c.size.width,
+			height=c.size.height;
+		var element = paper.rect(x+width/2, y+height/2, 0, 0, 10).attr(defaultStyle);
+		element.animate({x:x,y:y,width:width,height:height}, animationMs, animationEasing, function(){
+			var me = this;
+			document.getElementById('divContainer').scrollLeft=x;
+			document.getElementById('divContainer').scrollTop=y;
+			setTimeout(function(){
+				me.remove();
+			}, dispearDelay);
+		});
+	}
+	
+	// 绘制菱形
+	function diamond(c){
+		var x=c.point.x,
+			y=c.point.y,
+			length=c.length;
+		var element = paper.rect(x + length/6, y + length/6, length/1.5, length/1.5).attr(defaultStyle);
+		element.animate({transform:"r45"}, animationMs, animationEasing, function(){
+			var me = this;
+			document.getElementById('divContainer').scrollLeft=x;
+			document.getElementById('divContainer').scrollTop=y;
+			setTimeout(function(){
+				me.remove();
+			}, dispearDelay);
+		});
+	}
+	
+	// 绘制圆圈
+	function circle(c){
+		var x=c.point.x,
+			y=c.point.y,
+			r=c.radius;
+		var element = paper.circle(x + r, y + r, 0).attr(defaultStyle);
+		element.animate({"r":r}, animationMs, animationEasing, function(){
+			var me = this;
+			setTimeout(function(){
+				me.remove();
+			}, dispearDelay);
+		});
+	}
+	
+	// 绘制连线
+	function edge(c){
+		var points = c.points,
+			size = points.length-1,
+			sp = points[0],
+			elements = [];
+		
+		for(var i=0; i < size; i++){
+			var twins = [];
+			twins.push(points[i]);
+			twins.push(points[i+1]);
+			edgeAssembly(twins, elements, i+1, size);
+		}
+	}
+	
+	// 每两个点为一组绘制连线
+	function edgeAssembly(twins, elements, index, size){
+		var sp = twins[0],
+			ep = twins[1];
+		var element = paper.path("M" + sp.x + " " + sp.y).attr(defaultStyle);
+		elements.push(element);
+		var adjustX = ep.x,
+			adjustY = ep.y;
+		if(index==size){
+			if(sp.x != ep.x){
+				adjustX = ep.x - deviation;
+			}
+			if(sp.y != ep.y){
+				adjustY = ep.y - deviation;
+			}
+		}
+		var path = "M" + sp.x + " " + sp.y + "L" + adjustX + " " + adjustY;
+		var ms = animationMs/size;
+		var anim = Raphael.animation({"path":path}, ms, animationEasing, function(){
+			var me = this;
+			if(index==1){
+				setTimeout(function(){
+					for(var i=0,c;c=elements[i++];){
+						c.remove();
+					}
+				}, dispearDelay + ms*(size-1));
+			}
+			if(index==size){
+				me.attr({"arrow-end" : "block-wide-long"});
+			}
+		});
+		element.animate(anim.delay(ms*(index-1)));
+	}
+	
+	//显示指定流程实例的轨迹图
+	function plays(){
+		if(!paper) initPaper();
+		var dealNodes = getDealNodes();
+		paper.clear();
+		if(dealNodes && dealNodes.length >0){
+			calcAmend(dealNodes[0]);
+			for(var i=0,c;c=dealNodes[i++];){
+				handle(c);
+			}	
+		}
+	}
+	
+	// 计算修正值
+	function calcAmend(track){
+		var firstNode = $("#imageContainer").find("div.flowNode:first"),
+			left = firstNode.css("left"),
+			top = firstNode.css("top"),
+			leftVal = Number(left.replace("px","")),
+			topVal = Number(top.replace("px",""));
+		
+		amendX = track.point.x - leftVal;
+		amendY = track.point.y - topVal;
+	}
+
+	function getDealNodes(){
+		var nodes = null;
+		$.ajaxSetup({  
+		    async : false  
+		});  
+		var scope = getScope();
+		var url= window.getContext().bpmRunTime+"/runtime/instance/v1/getPathNodes?id="+scope.instId;
+		$.post(url,function(result){
+			nodes = result;
+		});
+		return nodes;
+	}
+</script>

@@ -1,0 +1,36 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="approvalItemEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="col-md-10 btn-group tools-panel">
+					<button type="button" class="btn btn-success btn-sm"
+							ng-click="save()">
+						<i class="fa fa-save"></i> {{'save' | translate}}
+					</button>
+					<button class="btn btn-danger btn-sm remove"
+							ng-click="close()">
+						<i class="fa fa-undo"></i> {{'cancle' | translate}}
+					</button>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group"><label class="col-sm-3 control-label"> {{'approval_approval_type' | translate}}: </label>
+						<div class="col-sm-9">
+                            <input value="{{'approval_personal_approval' | translate}}" class="form-control" readonly="readonly">
+                        </div>
+					</div>
+					<div class="form-group"><label class="col-sm-3 control-label"> {{'approval_approval' | translate}}:</label>
+						<div class="col-sm-9">
+							<textarea class="form-control"  ng-model="data.expression"></textarea> 
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

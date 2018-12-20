@@ -1,0 +1,19 @@
+<div ng-controller="taskTurnDetailCtrl" style="margin: 5px 5px 0px 5px;">
+	<table cellspacing="0" class="table-form">
+		<tbody>
+			<tr>
+				<th style="text-align: center;" width="100"><span>{{'transfer_person' | translate}} </span></th>
+				<th style="text-align: center;" width="100"><span>{{'receive_person' | translate}}</span></th>
+				<th style="text-align: center;" width="150"><span>{{'trans_time' | translate}}</span></th>
+				<th style="text-align: center;" width="220"><span>{{'trans_reason' | translate}}</span></th>
+			</tr>
+			<tr ng-repeat="task in turnAssigns">
+				<td>{{task.fromUser}}</td>
+				<td>{{task.fromUser}}</td>
+				<td>{{task.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				<td>{{task.comment}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+

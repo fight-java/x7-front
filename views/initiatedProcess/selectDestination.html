@@ -1,0 +1,58 @@
+<div ng-controller="selectDestinationCtrl">
+		<form>
+			<table cellspacing="0" class="table-form">
+				<tr ng-show="isContains(jumpType,'select') || isContains(jumpType,'free') ||  isContains(jumpType,'common')"> 
+					<th>{{'jump_type' | translate}}</th>
+					<td colspan="3">
+							<label class="radio-inline"  ng-show="isContains(jumpType,'common')" > 
+								<input type="radio" name="jumpType" ng-model="jumpType" value="common" ng-checked="jumpType=='common'"  />{{'normal_jump' | translate}}
+							</label>
+							<label class="radio-inline" ng-show="isContains(jumpType,'select')"> 
+								<input type="radio" name="jumpType" ng-model="jumpType" value="select" ng-checked="jumpType=='select'"  />{{'select_path_jump' | translate}}
+							</label>
+							<label class="radio-inline" ng-show="isContains(jumpType,'free')">
+								<input type="radio" name="jumpType" ng-model="jumpType" value="free"   ng-checked="jumpType=='free'" />{{'free_jump' | translate}}
+							</label>
+					</td>
+				</tr>
+				<tr ng-if="jumpType=='select'">
+					<th style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;"><abbr ht-tip title="{{'target_node_title' | translate}}">{{'target_node' | translate}}</abbr></th>
+					<td><select style="margin:6px;" class="inputText" ng-model="destination" name="destination" ht-validate="{'required':true}">
+							<option ng-repeat="outcomeNode in outcomeNodes" value="outcomeNode.nodeId"  nodeType="outcomeNode.type">{{outcomeNode.name}}</option>
+						</select>
+					</td>
+					<th style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;">{{'select_executor' | translate}}</th>
+					<td>
+						<div ng-repeat="(key,value) in outcomeUserMap" name="destinationDiv" ng-if="destination ==key">
+							<span name = "nodeUserSpan">
+								<label ng-repeat="user in value" class="checkbox-inline" ><input  type="checkbox" name="nodeUser" checked="checked" value="{{user.id}},{{user.name}},{{user.type}}" />{{user.name}}</label>
+							</span>
+							<a href="javascript:;" class="btn btn-xs btn-primary" ng-click="selectUser()">{{'select' | translate}}</a>
+						</div>
+					</td>	
+				</tr>
+				<tr ng-if="jumpType=='free'">
+					<th style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;"><abbr ht-tip title="{{'target_node_title' | translate}}">{{'target_node' | translate}}</abbr></th>
+					<td>
+						<select style="margin:6px;" class="inputText" ng-model="destination" name="destination"  ht-validate="{'required':true}">
+							<option ng-repeat="nodeDef in allNodeDef" value="nodeDef.nodeId"  nodeType="{{nodeDef.type}}">{{nodeDef.name}}</option>
+						</select>
+					</td>
+					<th style="text-align:right; font-size:14px; font-weight:normal;padding-right:5px; color:#10451A;">{{'select_executor' | translate}}</th>
+					<td>
+						<div ng-repeat="(key,value) in allNodeUserMap" name="destinationDiv" ng-if="destination ==key">
+							<span name = "nodeUserSpan">
+								<label ng-repeat="user in value" class="checkbox-inline" ><input  type="checkbox" name="nodeUser" checked="checked" value="{{user.id}},{{user.name}},{{user.type}}" />{{user.name}}</label>
+							</span>
+							<a href="javascript:;" class="btn btn-xs btn-primary" ng-click="selectUser()">{{'select' | translate}}</a>
+						</div>
+					</td>	
+				</tr>
+			</table>
+		</form>
+</div>
+<style type="text/css">
+div.panel {
+	border: 1px solid #ddd;
+}
+</style>

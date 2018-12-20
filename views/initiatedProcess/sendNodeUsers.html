@@ -1,0 +1,36 @@
+<div ng-controller="sendNodeUsersCtrl">
+	<form>
+		<table class="table-list" id="def" cellpadding="1" cellspacing="1" style="width: 100%" type="sub">
+			<thead>
+				<tr>
+					<th  width="150px">{{'node_name' | translate}}</th>
+					<th width="250px"> {{'person' | translate}}</th>
+					<th width="120px">{{'select' | translate}}</th>
+				</tr>
+			</thead>
+			<tbody id="listResult">
+				<tr ng-if="listNode.length>0" ng-repeat="node in listNode" >
+					<td>
+						{{node.name}}
+					</td>
+					<td>
+					 <span ng-bind="{{node.nodeId}}_Span"></span>
+					</td>
+					<td>
+						<a href="javaScript:void(0)" ng-click="selectUser(node.nodeId)" class="btn btn-sm btn-success fa-remove remove-flow">{{'select' | translate}}</a>
+					</td>
+				</tr>
+				<tr ng-if="listNode.length<1" id="firstRow">
+					<td colspan="2" align="center">
+						<font color='red'>{{'no_subsequent_nodes' | translate}}</font>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
+<style>
+.firstRow tr td font {
+	color: #000
+}
+</style>

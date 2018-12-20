@@ -1,0 +1,60 @@
+<div class="animated fadeInRight" ng-controller="mailGetCtrl">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="row wrapper">
+			<div class="mail-box-header">
+                <div class="pull-right tooltip-demo">
+                    <a href class="btn btn-white btn-sm" ng-click="close()"><i class="fa fa-reply"></i> {{'back' | translate}}</a>
+                    <a class="btn btn-white btn-sm" ng-click="remove()"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</a>
+                </div>
+                <h2 ng-bind="data.subject"></h2>
+                <div class="mail-tools tooltip-demo">
+                	<h5 class="no-margins">
+                        <span class="font-normal">{{'mailList_theSender' | translate}}: </span>
+                        <div ht-mailer="data.sender"></div>
+                	</h5>
+                    <h5 class="no-margins">
+                        <span class="pull-right font-normal" ng-bind="data.sendDate"></span>
+                        <span class="font-normal">{{'mailList_Addressee' | translate}}: </span>
+                        <div ht-mailer="data.receiver"></div>
+                    </h5>
+                    <h5 class="no-margins" ng-if="data.copyTo">
+                    	<span class="font-normal">{{'mailList_Copy' | translate}}: </span>
+                    	<div ht-mailer="data.copyTo"></div>
+                    </h5>
+                </div>
+            </div>
+			
+			<div class="mail-box">
+                <div class="mail-body">
+                    <p ng-bind-html="data.content"></p>
+                </div>
+                <div class="mail-attachment" ng-if="data.attachments && data.attachments.length > 0">
+                    <p>
+                        <span><i class="fa fa-paperclip"></i> {{'mailList_thereAre' | translate}} {{data.attachments.length}} {{'mailList_annexes' | translate}} </span>
+                    </p>
+                    <div class="attachment">
+                        <div class="file-box" ng-repeat="attach in data.attachments">
+                            <div class="file">
+                                <a href ng-click="download(attach.filePath)">
+                                    <span class="corner"></span>
+
+                                    <div class="icon">
+                                        <i class="fa fa-file"></i>
+                                    </div>
+                                    <div class="file-name" ng-bind="attach.fileName">
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="mail-body text-right tooltip-demo">
+                    <a href class="btn btn-white btn-sm" ng-click="close()"><i class="fa fa-reply"></i> {{'back' | translate}}</a>
+                    <a class="btn btn-white btn-sm" ng-click="remove()"><i class="fa fa-trash-o"></i> {{'delete' | translate}}</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+		</div>
+	</div>
+</div>

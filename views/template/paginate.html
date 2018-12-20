@@ -1,0 +1,78 @@
+<div class="row">
+	<div ng-if="pageResult.show && !pageResult.noTotal" class="col-sm-7">
+		<div class="dataTables_paginate paging_simple_numbers pull-left">
+			<ul class="pagination">
+				<li class="paginate_button previous" ng-class="{disabled: pageResult.page==1}">
+					<a href="javascript:;" ng-click="selectPage(1)">First</a>
+				</li>
+				<li ng-repeat="page in pages" ng-class="{active: page==pageResult.page}" class="paginate_button">
+					<a href="javascript:;" ng-bind="page" ng-click="selectPage(page)"></a>
+				</li>
+				<li class="paginate_button next" ng-class="{disabled: pageResult.page==pageResult.totalPages}">
+					<a href="javascript:;" ng-click="selectPage(pageResult.totalPages)">Last</a>
+				</li>
+				<li class="paginate_button">
+					<a title="{{'refresh' | translate}}" ng-click="refresh()" href="javascript:;" ng-click="selectPage(totalPages)">
+						<i class="fa fa-refresh"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="btn-group dropup pull-left m-sm" uib-dropdown>
+             <button type="button" class="btn btn-default btn-sm" uib-dropdown-toggle>
+                 {{'per_page' | translate}} {{pagination.pageSize}} {{'article' | translate}}  <span class="caret"></span>
+             </button>
+             <ul role="menu" uib-dropdown-menu>
+                 <li ng-repeat="option in pageSizeOptions">
+                 	<a href="javascript:;" ng-click="setPageSize(option)">{{'per_page' | translate}} {{option}} {{'article' | translate}}</a>
+                 </li>
+             </ul>
+         </div>
+	</div>
+	<div ng-if="pageResult.show && !pageResult.noTotal" class="col-sm-5">
+		<div class="dataTables_info pull-right">
+            {{'display' | translate}} <span ng-bind="pageResult.startRow"></span>  {{'to_the_first' | translate}} <span ng-bind="pageResult.endRow"></span>
+            {{'article_data_total' | translate}} <span ng-bind="pageResult.totalCount"></span> {{'article_data' | translate}}
+		</div>
+	</div>
+	
+	<div ng-if="pageResult.show && pageResult.noTotal" class="col-sm-7">
+		<div class="dataTables_paginate paging_simple_numbers pull-left">
+			<ul class="pagination">
+				<li class="paginate_button previous" ng-if="pageResult.page > 2">
+					<a href="javascript:;" ng-click="selectPage(1)">First</a>
+				</li>
+				<li class="paginate_button" ng-if="pageResult.page > 1">
+					<a href="javascript:;" ng-click="selectPage(pageResult.page - 1)">&lt;</a>
+				</li>
+				<li class="paginate_button active">
+					<a href="javascript:;" ng-bind="pageResult.page"></a>
+				</li>
+				<li class="paginate_button next">
+					<a href="javascript:;" ng-click="selectPage(pageResult.page + 1)">&gt;</a>
+				</li>
+				<li class="paginate_button">
+					<a title="{{'refresh' | translate}}" ng-click="refresh()" href="javascript:;" ng-click="selectPage(totalPages)">
+						<i class="fa fa-refresh"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="btn-group dropup pull-left m-sm" uib-dropdown>
+             <button type="button" class="btn btn-default btn-sm" uib-dropdown-toggle>
+                 {{'per_page' | translate}} {{pagination.pageSize}} {{'article' | translate}} <span class="caret"></span>
+             </button>
+             <ul role="menu" uib-dropdown-menu>
+                 <li ng-repeat="option in pageSizeOptions">
+                 	<a href="javascript:;" ng-click="setPageSize(option)">{{'per_page' | translate}} {{option}} {{'article' | translate}}</a>
+                 </li>
+             </ul>
+         </div>
+	</div>
+	<div ng-if="pageResult.show && pageResult.noTotal" class="col-sm-5">
+		<div class="dataTables_info pull-right">
+            {{'display' | translate}} <span ng-bind="pageResult.startRow"></span> {{'to_the_first' | translate}} <span ng-bind="pageResult.endRow"></span>
+            {{'article_data' | translate}}
+		</div>
+	</div>
+</div>

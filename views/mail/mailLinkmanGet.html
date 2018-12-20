@@ -1,0 +1,52 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="mailLinkmanEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{'mailLinkmanList_userId' | translate}}:</label>
+						<div class="col-sm-10">
+						<input ng-model="data.userId" class="form-control" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{'mailLinkmanList_mailId' | translate}}:</label>
+						<div class="col-sm-10">
+						<input ng-model="data.mailId" class="form-control" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{'insideMessageList_sendtime' | translate}}:</label>
+						<div class="col-sm-10">
+						<input ng-model="data.sendTime | date :'yyyy-MM-dd'" class="form-control" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{'mailLinkmanList_contactName' | translate}}:</label>
+						<div class="col-sm-10">
+						<input ng-model="data.linkName" class="form-control" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{'mailLinkmanList_contactAddress' | translate}}:</label>
+						<div class="col-sm-10">
+						<input ng-model="data.linkAddress" class="form-control" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{'mailLinkmanList_sendingTimes' | translate}}:</label>
+						<div class="col-sm-10">
+						<input ng-model="data.sendTimes" class="form-control" readonly="readonly">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

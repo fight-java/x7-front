@@ -1,0 +1,65 @@
+<div ng-controller="transDetailCtrl">
+	<div class="col-md-12">
+		<table cellspacing="0" class="table-form">
+			<tr>
+				<th colspan="6" style="text-align: center;">{{'circulation_rules' | translate}}</th>
+			</tr>
+			<tr>
+				<th>{{'count_tickets_strategy' | translate}}：</th>
+				<td>
+					<span ng-if="trans.decideType=='agree'">{{'agree' | translate}}</span>
+					<span ng-if="trans.decideType!='agree'">{{'opposition' | translate}}</span>
+				</td>
+				<th>
+					<span class="pull-right">：</span>
+				</th>
+				<td>
+					<span ng-if="trans.voteType == 'amount'">{{'absolute_votes' | translate}}</span>
+					<span ng-if="trans.voteType != 'amount'">{{'percentage' | translate}}</span>
+				</td>
+				<th>
+					<span class="pull-right">{{'votes_number' | translate}}：</span>
+				</th>
+				<td>
+					{{trans.voteAmount}}
+					<span ng-if="trans.voteType=='percent'">%</span>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					<span class="pull-right">{{'circulation_type' | translate}}：</span>
+				</th>
+				<td> 
+					<span ng-if="trans.signType=='parallel'">{{'parallel' | translate}}</span>
+					<span ng-if="trans.signType!='parallel'">{{'serial' | translate}}</span>
+				</td>
+				<th>
+					<span class="pull-right">{{'completion_action' | translate}}：</span>
+				</th>
+				<td>
+					<span ng-if="trans.action=='submit'">{{'submit' | translate}}</span>
+					<span ng-if="trans.action!='submit'">{{'go_back' | translate}}</span>
+				</td>
+				<th></th>
+				<td></td>
+			</tr>
+			<tr>
+				<th colspan="6" style="text-align: center;">{{'trans_approval_details' | translate}}</th>
+			</tr>
+			
+			<tr ng-repeat="item in trans.receiverList">
+				<th>{{'person' | translate}}：</th>
+				<td>{{item.receiver }}</td>
+				<th>{{'approval_state' | translate}}：</th>
+				<td>
+					<span ng-if="trans.status == 2">{{'revoke_cancel' | translate}}；</span>
+					<span ng-if="item.checkType == 1">{{'agree' | translate}}；</span>
+					<span ng-if="item.checkType == 2">{{'opposition' | translate}}；</span>
+					<span ng-if="trans.status != 2 && item.checkType != 1 && item.checkType != 2">{{'not_approved' | translate}}</span>
+				</td>
+				<th>{{'opinion' | translate}}：</th>
+				<td>{{item.opinion }}</td>
+			</tr>
+		</table>
+	</div>
+</div>

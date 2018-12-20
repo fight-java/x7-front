@@ -1,0 +1,26 @@
+<!-- Wrapper-->
+<div id="wrapper" class="top-navigation full-height">
+
+	<!-- Navigation -->
+
+	<!-- Page wraper -->
+	<!-- ng-class with current state name give you the ability to extended customization your view -->
+	<div id="wrapper" class="gray-bg  full-height {{$state.current.name}}">
+
+		<!-- Page wrapper -->
+		<div id="top-view" ng-include="'views/common/topnavbar.html'"></div>
+		<toaster-container></toaster-container>
+
+		<!-- Main view  -->
+		<div ui-view id="main-view"></div>
+
+		<!-- Footer -->
+		<div ng-include="'views/common/footer.html'"></div>
+
+	</div>
+	<!-- End page wrapper-->
+
+	<!-- Right Sidebar -->
+	<div id="right-sidebar"></div>
+</div>
+<!-- End wrapper-->

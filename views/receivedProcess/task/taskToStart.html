@@ -1,0 +1,29 @@
+<div class="animated fadeInRight" full-scroll ng-controller="taskToStartCtrl">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="row white-bg" style="min-height:800px;">
+			<div class="ibox">
+				<div class="ibox-title no-borders">
+					<h5>{{title}}</h5>
+					<div class="ibox-tools">	
+						<a href="#/receivedProcess/pending" class="btn btn-danger btn-sm">
+							<i class="fa fa-undo"></i> {{'back' | translate}}
+						</a>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<div class="srcoll-panel">
+						<div class="gray-div">
+							<div class="toolbar-panel noprint">
+								<div class="buttons" style="margin-left:10px;">
+									<div ht-bpm-buttons></div>
+								</div>
+							</div>
+							
+							<div ht-bpm-manager="{taskId:{{taskId}}}"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

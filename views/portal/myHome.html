@@ -1,0 +1,10 @@
+<div class="animated fadeInRight" ng-controller="myHomeCtrl">
+	<div class="col-md-10 col-md-offset-1">
+		<div ng-if="isAuth" ht-bind-html="html" class="index-page"></div>
+		<div ng-if="!isAuth">
+			<div title="未授权任何系统">
+            	<div class="alert alert-danger" role="alert">没有任何授权资源</div>
+            </div>
+		</div>
+	</div>
+</div>

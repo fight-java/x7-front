@@ -1,0 +1,78 @@
+<div class="animated fadeInRight" ng-controller="layoutDesignCtrl">
+	<div class="col-md-10 col-md-offset-1 white-bg">
+		<div class="col-md-2 border-right p-sm">
+			<uib-accordion close-others="true">
+				<div uib-accordion-group class="panel-default" heading="{{'sysIndexMyLayout_LayoutSetting' | translate}}" is-open="true">
+					<div class="dragfrom m-xs" ng-repeat="layoutTemp in layoutTempList">
+						<span class="label label-default" layout-id="{{layoutTemp.id}}" ng-bind="layoutTemp.name"></span>
+					</div>
+				</div>
+				<div uib-accordion-group class="panel-default" ng-repeat="(key,value) in columnMap" heading="{{key}}">
+					<div class="dragfrom m-xs" ng-repeat="columnTemp in value">
+						<span class="label label-primary" column-alias="{{columnTemp.alias}}" ng-bind="columnTemp.name"></span>
+					</div>
+				</div>
+			</uib-accordion>
+		</div>
+		<div class="col-md-10 no-padding">
+			<div class="ibox full-height">
+				<div class="ibox-title no-borders p-xs">
+					<div class="col-md-9">
+						<strong>{{'sysIndexMyLayout_LayoutDesign' | translate}}</strong>
+						<a class="btn btn-white btn-bitbucket btn-sm" ng-click="clear()">
+	                        <i class="fa fa-trash"></i> {{'sysIndexMyLayout_empty' | translate}}
+	                    </a>
+	                    <a class="btn btn-white btn-bitbucket btn-sm" ng-click="redo()">
+	                        <i class="fa fa-repeat"></i> {{'sysIndexMyLayout_redo' | translate}}
+	                    </a>
+	                    <a class="btn btn-white btn-bitbucket btn-sm" ng-click="preview()">
+	                        <i class="fa fa-road"></i> {{'sysIndexMyLayout_preview' | translate}}
+	                    </a>
+					</div>
+					<div class="w-150">
+						<button class="btn btn-primary btn-sm" type="button" ng-click="save()">
+							<i class="fa fa-save"></i> {{'sysIndexMyLayout_Preservation' | translate}}
+						</button>
+						<button ng-show="false" class="btn btn-default btn-sm" type="button" ng-click="back()">
+							<i class="fa fa-undo"></i> {{'sysIndexMyLayout_Return' | translate}}
+						</button>
+					</div>
+				</div>
+				<div class="ibox-content" style="height: calc(100% - 50px);">
+					<div id="designPanel" class="dropto white-bg full-height-scroll p-sm" style="min-height: 300px;" full-scroll>
+						 <div class="row" layout-id="{{layout.id}}" ng-repeat="layout in layouts track by $index" ng-class="{'selected':editingField===layout}" ng-click="selectField(layout)">
+						 	<div class="superfluous" ng-bind-html="layout.templateHtml"></div>
+						 	<div ng-if="editingField===layout" class="tooltip-container">
+							    <a class="btn btn-danger fa fa-trash-o" title="移除" ng-click="removeField(layout)"></a>
+							</div> 
+						 </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</div>
+<style>
+	div.dragfrom span.label {
+		display: inline-block;
+		padding: 5px 16px;
+	}
+	.dragfrom{
+		cursor: move;
+	}
+	.column{
+		border:1px dashed #ccc;
+		min-height:50px;
+		margin: 10px 0;
+		text-align: center;
+	}
+	#tong .column{
+		border: 0;
+		margin: 0;
+	}
+	.column span.label {
+		margin: 12px 0;
+    	display: inline-block;
+	}
+</style>

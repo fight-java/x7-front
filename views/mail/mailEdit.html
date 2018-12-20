@@ -1,0 +1,63 @@
+<div class="gray-back animated fadeInRight" ng-controller="mailEditCtrl">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="mail-box-header">
+            <div class="pull-right tooltip-demo" style="width: 320px;">
+	            <div class="col-md-4">
+	            	<select class="form-control input-sm selectload" ng-model="data.senderAddress" name="senderAddress" required="" aria-required="true">
+						<option ng-repeat="mail in mailSettingList">{{mail.mailAddress}}</option>
+	                </select>
+	            </div>
+            	<div class="col-md-8">
+                	<a href class="btn btn-white btn-sm" ng-click="sendMail(3)"><i class="fa fa-pencil"></i> {{'draft' | translate}}</a>
+                	<a href class="btn btn-danger btn-sm" ng-click="close()"><i class="fa fa-times"></i> {{'mailList_giveUp' | translate}}</a>
+            	</div>
+            </div>
+            <h3>{{'mailList_sendMail' | translate}}</h3>
+        </div>
+        <div class="mail-box">
+             <div class="mail-body">
+                 <form class="form-horizontal">
+                     <div class="form-group">
+                     <label class="col-sm-2 control-label">{{'mailList_Addressee' | translate}}:</label>
+                        <div class="col-sm-10" style="position: relative;">
+                        	<select chosen class="chosen-select"  tabindex="4" ng-model="data.receiverAddresses" ng-options="selectItem.linkAddress as selectItem.linkAddress for selectItem in memoryAddresses"></select>
+                    	 	 <input class="form-control input-sm" id="inputselect" type="text"ng-model="data.receiverAddresses"  style="border:0px; margin-left:2px;padding-left:4px;  width:94%;position: absolute;top: 2px" />
+                    	 </div> 
+                     </div> 
+                     <div class="form-group"><label class="col-sm-2 control-label">{{'mailList_Copy' | translate}}:</label>
+                         <div class="col-sm-10">
+                         	 <select chosen class="chosen-select"  tabindex="5" ng-model="data.copyToAddresses" ng-options="selectItem.linkAddress as selectItem.linkAddress for selectItem in memoryAddresses"></select>
+                    	 	 <input class="form-control input-sm" id="inputselect" type="text"ng-model="data.copyToAddresses"  style="border:0px; margin-left:2px;padding-left:4px;  width:94%;position: absolute;top: 2px" />
+                         </div>
+                     </div>
+                     <div class="form-group"><label class="col-sm-2 control-label">{{'mailList_bcc' | translate}}:</label>
+                         <div class="col-sm-10">
+                         	<select chosen class="chosen-select"  tabindex="6" ng-model="data.bcCAddresses" ng-options="selectItem.linkAddress as selectItem.linkAddress for selectItem in memoryAddresses"></select>
+                    	 	<input class="form-control input-sm" id="inputselect" type="text"ng-model="data.bcCAddresses"  style="border:0px; margin-left:2px;padding-left:4px;  width:94%;position: absolute;top: 2px" />
+                         </div>
+                     </div>
+                     <div class="form-group"><label class="col-sm-2 control-label">{{'mailList_theme' | translate}}:</label>
+                         <div class="col-sm-10"><input type="text" class="form-control input-sm" ng-model="data.subject"></div>
+                     </div>
+                 </form>
+             </div>
+             <div class="mail-text h-300">
+                 <div summernote class="summernote" ng-model="data.content">
+                 </div>
+                 <div class="clearfix"></div>
+             </div>
+             <div class="mail-attachment">
+                 <div class="attachment">
+                     <div ht-upload="data.fileIds" issingle="" ng-model="data.fileIds"  desc="{{'messageNewsList.annex' | translate}}" type="text"></div>
+                     <div class="clearfix"></div>
+                 </div>
+             </div>
+             <div class="mail-body text-right tooltip-demo">
+                 <a href class="btn btn-sm btn-primary" ng-click="sendMail(2)"><i class="fa fa-send-o"></i> {{'mailList_send' | translate}}</a>
+                 <a href class="btn btn-white btn-sm" ng-click="sendMail(3)"><i class="fa fa-pencil"></i> {{'draft' | translate}}</a>
+                 <a href class="btn btn-danger btn-sm" ng-click="close()"><i class="fa fa-times"></i> {{'mailList_giveUp' | translate}}</a>
+             </div>
+             <div class="clearfix"></div>
+         </div>
+	</div>
+</div>

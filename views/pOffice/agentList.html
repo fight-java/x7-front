@@ -1,0 +1,97 @@
+<div class="white-bg border-left animated fadeInRight" ng-controller="agentCtrl">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="ibox" ht-data-table="dataTable" url="${bpmModel}/flow/agent/v1/listJson">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="col-md-3 btn-group tools-panel">
+						<button type="button" class="btn btn-success btn-sm"
+							ng-click="operating(row.id, 'edit')">
+							<i class="fa fa-plus"></i>{{'add' | translate}}
+						</button>
+						<button class="btn btn-danger btn-sm remove" 
+								ht-remove-array url="${bpmModel}/flow/agent/v1/remove">
+							<i class="fa fa-trash"></i> {{'delete' | translate}}
+						</button>
+					</div>
+					<div class="input-group col-md-3 tools-panel">
+						<span class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</span>
+						<input type="text" name="search" class="form-control input-sm" placeholder="{{'proxySettings_subject' | translate}}"
+							   title="{{'proxySettings_subject' | translate}}" ht-quick-search="subject_">
+					</div>
+				</div>
+				<div class="col-md-2" table-tools></div>
+			</div>
+			<div class="ibox-content" style="display:none;">
+				<form class="form-horizontal">
+	                <div class="form-group">
+	                	<label class="col-md-1 control-label">{{'proxySettings_subject' | translate}}</label>
+	                    <div class="col-md-2">
+	                    	<input type="text" placeholder="{{'proxySettings_subject' | translate}}" ht-query="subject"
+	                    		   class="form-control input-sm">
+	                    </div>
+	                	<label class="col-md-1 control-label">{{'proxySettings_validity_of' | translate}}</label>
+	                    <div class="col-md-2">
+	                    	<select class="form-control input-sm" ht-query="isEnabled" operation="equal">
+	                    		<option value=""></option>
+	                    		<option value="Y">{{'proxySettings_effective' | translate}}</option>
+	                    		<option value="N">{{'proxySettings_invalid' | translate}}</option>
+	                    	</select>
+	                    </div>
+	                    <label class="col-md-1 control-label">{{'proxySettings_agent_type' | translate}}</label>
+	                    <div class="col-md-2">
+	                    	<select class="form-control input-sm" ht-query="type" operation="equal">
+	                    		<option value=""></option>
+	                    		<option value="1">{{'proxySettings_full' | translate}}</option>
+	                    		<option value="2">{{'proxySettings_part_of_the' | translate}}</option>
+	                    		<!-- <option value="3">条件</option> -->
+	                    	</select>
+	                    </div>
+	                    <div class="col-md-2">
+	                        <button class="btn btn-primary btn-sm" type="button" 
+	                        		ht-search><i class="fa fa-search"></i> {{'search' | translate}}</button>
+	                        <button class="btn btn-default btn-sm" type="button" 
+	                        		ht-reset><i class="fa fa-reply-all"></i> {{'reset' | translate}}</button>
+	                    </div>
+	                </div>
+	            </form>
+			</div>
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover" ht-table>
+					<tbody>
+						<tr ng-repeat="row in dataTable.rows track by $index">
+							<td width="30" class="center" selectable="true">
+								<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+							</td>
+							<td width="60" ng-bind="$index+1" title="{{'number' | translate}}"></td>
+							<td ht-field="row.subject" title="{{'proxySettings_subject' | translate}}" sortable="true"></td>
+							<td width="80" ht-field="row.authName" title="{{'proxySettings_authorized_person' | translate}}"></td>
+							<td width="80" ng-bind="formatterAgent(row.agent,row)" title="{{'proxySettings_the_agent' | translate}}"></td>
+							<td width="145" ht-field="row.startDate | date:'yyyy-MM-dd HH:mm:ss'" title="{{'startDate' | translate}}" sortable="true"></td>
+							<td width="145" ht-field="row.createTime | date:'yyyy-MM-dd HH:mm:ss'" title="{{'endDate' | translate}}" sortable="true"></td>
+							<td width="120" class="col-md-1" ng-switch="row.isEnabled" sortable="true" title="{{'proxySettings_validity_of' | translate}}">
+								<span class="badge badge-primary" ng-switch-when="Y">{{'proxySettings_effective' | translate}}</span>
+								<span class="badge badge-gray" ng-switch-when="N">{{'proxySettings_invalid' | translate}}</span>
+							</td>
+							<td width="120" class="col-md-1" ng-switch="row.type" sortable="true" title="{{'proxySettings_agent_type' | translate}}">
+								<span class="badge badge-primary" ng-switch-when="1">{{'proxySettings_full' | translate}}</span>
+								<span class="badge badge-primary" ng-switch-when="2">{{'proxySettings_part_of_the' | translate}}</span>
+								<!-- <span class="badge badge-primary" ng-switch-when="3">条件代理</span> -->
+							</td>
+							<td width="250" title="{{'operation' | translate}}">
+								<button ng-click="operating(row.id, 'edit')" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> {{'edit' | translate}}</button>
+								<button ng-click="operating(row.id, 'view')" class="btn btn-info btn-sm"><i class="fa fa-edit"></i> {{'detail' | translate}}</button>
+								<button class="btn btn-info btn-sm" ht-action="{'url':'${bpmModel}/flow/agent/v1/remove?ids={{row.id}}','actType':'del'}" ><i class="fa fa-remove"></i> {{'delete' | translate}}</button>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="7"><i class="fa fa-info-circle"></i> {{'emptyResult' | translate}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+</div>

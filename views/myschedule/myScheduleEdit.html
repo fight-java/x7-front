@@ -1,0 +1,55 @@
+<div class="white-bg animated fadeInRight" full-scroll ng-controller="myScheduleEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			 <div ng-if="pageParam.type !='page'" class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal" name="myScheduleForm" ng-submit="save()">
+				
+					<div class="form-group">								
+						<label class="col-sm-4 control-label">{{'mySchedule.itinerary_name' | translate}}:</label>
+						<div class="col-sm-8">
+							<input aria-required="true" class="form-control input-sm" type="text" ng-model="data.name"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					
+					<div class="form-group">								
+						<label class="col-sm-4 control-label">{{'mySchedule.itinerary_date' | translate}}:</label>
+						<div class="col-sm-8">
+						    <input class="form-control dateformat"  ng-model="data.date" ht-date="yyyy-MM-dd" show-current-date="" type="text" />
+						</div>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-4 control-label">{{'needPendingMeetingList.start_time' | translate}}:</label>
+						<div class="col-sm-8">
+							<input class="form-control dateformat"  ng-model="data.startTiem" ht-date="HH:mm" show-current-date="true" type="text" />
+						</div>
+					</div>
+					<div class="form-group">								
+						<label class="col-sm-4 control-label">{{'needPendingMeetingList.end_time' | translate}}:</label>
+						<div class="col-sm-8">
+							<input class="form-control dateformat"  ng-model="data.endTime" ht-date="HH:mm" show-current-date="true" type="text" />
+						</div>
+					</div>
+					
+					<div class="form-group">								
+						<label class="col-sm-4 control-label">{{'mySchedule.itinerary_description' | translate}}:</label>
+						<div class="col-sm-8">
+							<input aria-required="true" class="form-control input-sm" type="text" ng-model="data.note"   ht-validate="{required:false,maxlength:128}"  />
+						</div>
+					</div>
+					 <div ng-if="pageParam.type !='page'" class="form-group">
+						<div class="col-sm-8 col-sm-offset-2" align="center">
+							<button class="btn btn-primary" type="submit" >{{'save' | translate}}</button>
+							<button class="btn btn-white" type="button" ng-click="close()">{{'cancle' | translate}}</button>
+						</div>
+					</div> 
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

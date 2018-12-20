@@ -1,0 +1,26 @@
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="approvalItemEditCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<table class="table table-bordered table-striped table-hover">
+							<tr>								
+						<th>{{'approval_approval_type' | translate}}:</th>
+						<td> <span>{{'approval_personal_approval' | translate}}</span></td>
+					</tr>
+					<tr>								
+						<th>{{'approval_approval' | translate}}:</th>
+						<td> {{data.expression }}</td>
+					</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

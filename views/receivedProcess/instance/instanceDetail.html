@@ -1,0 +1,77 @@
+<div class="white-bg animated fadeInRight" ng-controller="instanceDetailCtrl" style="overflow: hidden;">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="ibox">
+			<div class="ibox-content" style="padding:0 0 0 0 ;overflow: hidden;">
+				<div class="tabs-container">
+					<uib-tabset>
+						<uib-tab heading="{{'processMatters_instance_information' | translate}}">
+							<div class="p-h-m">
+								<table class="table table-bordered table-hover instance-detail">
+									<tbody>
+										<tr>
+											<th width="200">{{'processMatters_examples_title' | translate}}</th>
+											<td ng-bind="instance.subject"></td>
+											<th width="280">{{'processMatters_formal_data' | translate}}</th>
+											<td ng-switch="instance.isFormmal">
+												<span class="badge badge-success" ng-switch-when="Y">{{'yes' | translate}}</span>
+												<span class="badge badge-primary" ng-switch-when="N">{{'no' | translate}}</span>
+											</td>
+										</tr>
+										<tr>
+											<th>{{'processMatters_proInstId' | translate}}(proInstId)</th>
+											<td ng-bind="instance.id"></td>
+											<th>{{'processMatters_bpmnInstId' | translate}}(bpmnInstId)</th>
+											<td ng-bind="instance.bpmnInstId"></td>
+										</tr>
+										<tr>
+											<th>{{'processMatters_procDefId' | translate}}(procDefId)</th>
+											<td ng-bind="instance.procDefId"></td>
+											<th>{{'processMatters_bpmnDefId' | translate}}(bpmnDefId)</th>
+											<td ng-bind="instance.bpmnDefId"></td>
+										</tr>
+										<tr>
+											<th>{{'processMatters_procDefKey' | translate}}(procDefKey)</th>
+											<td ng-bind="instance.procDefKey"></td>
+											<th>{{'proxySettings_flowName' | translate}}</th>
+											<td ng-bind="instance.procDefName"></td>
+										</tr>
+										<tr>
+											<th>{{'processMatters_bizKey' | translate}}</th>
+											<td ng-bind="instance.bizKey"></td>
+											<th>{{'createBy' | translate}}</th>
+											<td ng-bind="instance.creator"></td>
+										</tr>
+										<tr>
+											<th>{{'createTime' | translate}}</th>
+											<td ng-bind="instance.createTime"></td>
+											<th>{{'endTime' | translate}}</th>
+											<td ng-bind="instance.endTime"></td>
+										</tr>
+										<tr>
+											<th>{{'processMatters_duration' | translate}}</th>
+											<td ng-bind="instance.duration | htDuration"></td>
+											<th>{{'processMatters_parentInstId' | translate}}</th>
+											<td ng-bind="instance.parentInstId"></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+					    </uib-tab> 
+					    <uib-tab heading="{{'processMatters_flow_chart' | translate}}" select="selectImage('views/receivedProcess/instance/instanceFlowImage.html')">
+					    	<div ng-include="imageUrl"></div>
+						</uib-tab>
+						<uib-tab heading="{{'processMatters_history' | translate}}" select="selectHistory('views/receivedProcess/instance/instanceFlowOpinions.html')">
+							<div ng-include="historyUrl"></div>
+						</uib-tab>
+						<uib-tab heading="{{'processMatters_form' | translate}}" select="selectForm('views/receivedProcess/instance/instanceForm.html')">
+							<div ng-include="formUrl"></div>
+						</uib-tab>
+					</uib-tabset>
+					<a href="javascript:void(0)" ng-click="routeToback(state)" class="btn btn-danger btn-sm tab-return-btn">
+						<i class="fa fa-undo"></i> {{'back' | translate}}
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

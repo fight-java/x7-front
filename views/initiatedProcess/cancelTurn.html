@@ -1,0 +1,33 @@
+<div ng-controller="cancelTurnCtrl">
+	<div class="toolbar-panel">
+		<div class="buttons">
+			<button role="button" ng-click="saveCancelTurn()" href="javascript:;" class="btn btn-primary fa fa-save">{{'confirm' | translate}}</button>
+			<button ng-click="closeEdit();" class="btn btn-default fa fa-close">{{'cancel' | translate}}</button>
+		</div>
+	</div>
+	
+	<form>
+		<input type="hidden" name="taskId" value="${taskId}">
+		<table cellspacing="0" class="table-form">
+			<tr> 
+				<th>
+					<abbr ht-tip title="{{'Reminding_message_title' | translate}}">{{'Reminding_message' | translate}}:</abbr> 
+				</th>
+				<td>
+					<label class="checkbox-inline" ng-repeat="(k,v) in handlerTypes track by $index">
+						<input type="checkbox" ht-checkbox ng-model="data.messageType" value="{{k}}" />{{v}}
+					</label>
+				</td>
+			</tr>
+			<tr> 
+				<th >
+					{{'Reason' | translate}}:
+				</th>
+				<td >
+					<textarea class="inputText" ng-model="data.opinion" name="opinion" rows="4" 
+						  cols="50" style="width: 300px; margin:5px" validate="{required:true}"></textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>

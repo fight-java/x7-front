@@ -1,0 +1,89 @@
+<div class="border-left animated fadeInRight" ng-controller="mailListCtrl">
+	<div class="col-md-6 col-md-offset-3" ng-if="!treeData.length">
+		<p class="font-bold alert alert-warning m-b-sm">
+	    	<span>未配置邮箱账号，请通过</span>
+	    	<a ui-sref="mail.mailSettingList">邮箱配置管理</a>
+	        <span>添加一个邮箱账号。</span>
+        </p>
+	</div>
+	
+	<div class="col-md-10 col-md-offset-1 white-bg" ng-if="treeData.length">
+		<div class="col-md-2 full-height no-padding-right">
+			<div class="full-height-scroll" full-scroll>
+				<div class="tree-toolbar p-xs">
+					<div class="btn-group" uib-dropdown is-open="status.isopen">
+						<button id="split-button" type="button" class="btn btn-info btn-sm" ng-click="sysnc(mailSetId)">
+						<i class="fa fa-upload fa-rotate-180"></i>&nbsp;&nbsp;{{'mailList_Raletter' | translate}}</button>
+						<button type="button" class="btn btn-info btn-sm" uib-dropdown-toggle>
+						<span class="caret"></span>
+						<span class="sr-only">{{'mailList_Clfom' | translate}}</span></button>
+						<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="split-button">
+							<li role="menuitem">
+								<a href ng-click="sysnc()">{{'mailList_Callaccounts' | translate}}</a></li>
+								<li class="divider"></li>
+								<li role="menuitem" ng-repeat="set in treeData">
+									<a href ng-click="sysnc(set.id)" ng-bind="set.nickName"></a>
+								</li>
+							</ul>
+						</div>
+						<a href class="btn btn-success btn-sm" ng-click="operating('', 'add')">
+						<i class="fa fa-plus"></i>{{'mailList_Writeletters' | translate}}</a>
+					</div>
+					<input id="types" type="hidden" value="{{type}}" />
+					<ul id="treeObject" ht-tree="treeConfig" ng-model="treeData" tree="treeInstance" tree-events="beforeClick:tree_click"></ul>
+			</div>
+		</div>
+		
+		<div class="col-md-10 no-padding border-left">
+			<div class="ibox" ht-data-table="dataTable" url="${portal}/mail/mail/mail/v1/listJson">
+				<div class="ibox-title no-borders">
+					<div class="col-md-10 ">
+						<div class="col-md-4 btn-group tools-panel">
+							<button class="btn btn-danger btn-sm remove" ng-click="remove()">
+							<i class="fa fa-trash"></i>{{'delete' | translate}}</button>
+						</div>
+						<div class="input-group col-md-8 tools-panel">
+							<span class="input-group-addon">
+								<i class="fa fa-search"></i>
+							</span>
+							<input type="text" name="search" class="form-control input-sm" placeholder="{{'mailList_theme' | translate}}，{{'mailList_theSender' | translate}}" title="{{'mailList_Sbsender' | translate}}" ht-quick-search="subject,senderAddress">
+						</div>
+					</div>
+				</div>
+				<div class="ibox-footer">
+					<table id="meetingTable" class="table table-bordered table-striped table-hover" ht-table initialize="false">
+						<tbody>
+							<tr ng-repeat="row in dataTable.rows track by $index" class="pointer" ng-click="operating(row.id, 'get')">
+								<td width="30" class="center" selectable="true">
+									<div class="checkbox">
+										<input type="checkbox" ng-click="$event.stopPropagation();" ht-select="row" value="{{row.id}}">
+										<label></label>
+									</div>
+								</td>
+								<td width="50" class="center" ng-bind="$index+1" title="{{'number' | translate}}"></td>
+								<td width="60" class="center" title="{{'insideMessageList_Read' | translate}}" sortable="true" ng-switch="row.isRead">
+									<i class="fa fa-envelope fa-lg" ng-switch-when="0"></i>
+									<i class="fa fa-envelope-open-o fa-lg" ng-switch-when="1"></i>
+								</td>
+								<td ht-field="row.subject" title="{{'mailList_theme' | translate}}" sortable="true"></td>
+								<td ht-field="row.senderAddress" title="{{'mailList_theSender' | translate}}" sortable="true"></td>
+								<td width="160" ht-field="row.sendDate" title="{{'insideMessageList_Sendingtime' | translate}}" sortable="true"></td>
+								<td width="180" title="{{'operation' | translate}}" ng-show="type==3">
+									<button class="btn btn-info btn-sm" ng-click="operating(row.id, 'add');$event.stopPropagation();" ng-show="type==3">
+									<i class="fa fa-file-text"></i>{{'edit' | translate}}</button>
+									<button class="btn btn-info btn-sm" ng-click="send(row.id,2);$event.stopPropagation();" ng-show="type==3">
+									<i class="fa fa-file-text"></i>{{'mailList_send' | translate}}</button>
+								</td>
+							</tr>
+							<tr class="no-row">
+								<td colspan="6">
+								<i class="fa fa-info-circle"></i>{{'emptyResult' | translate}}</td>
+							</tr>
+						</tbody>
+					</table>
+					<div ht-pagination></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

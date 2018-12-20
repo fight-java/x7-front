@@ -1,0 +1,35 @@
+<div ng-controller="revokeTransCtrl">
+	<div class="toolbar-panel col-md-12">
+	<form>
+		<input type="hidden" name="taskId" value="${taskId}">
+		<table cellspacing="0" class="table-form">
+			<tr> 
+				<th>
+					<abbr ht-tip title="{{'Reminding_message_title' | translate}}">{{'Reminding_message' | translate}}:</abbr>
+				</th>
+				<td>
+					<div class="checkbox checkbox-info checkbox-inline" ng-repeat="(k,v) in handlerTypes track by $index">
+						<input id="{{k}}" type="checkbox" ht-checkbox ng-model="data.notifyType" value="{{k}}" />
+						<label for="{{k}}"> {{v}} </label>
+					</div>
+				</td>
+			</tr>
+			<tr> 
+				<th >
+					{{'Reason' | translate}}:
+				</th>
+				<td >
+					<textarea class="inputText" ng-model="data.opinion" name="opinion" rows="4" 
+						  cols="50" style="width: 400px; margin:5px" validate="{required:true}"></textarea>
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+	<div class="toolbar-panel col-md-12" style="text-align:right;margin-bottom: 5px">
+		<div class="buttons">
+			<button role="button" ng-click="saveRevokeTrans()" href="javascript:;" class="btn btn-primary fa fa-save">{{'confirm' | translate}}</button>
+			<button ng-click="closeEdit();" class="btn btn-default btn-sm fa fa-close">{{'cancel' | translate}}</button>
+		</div>
+	</div>
+</div>

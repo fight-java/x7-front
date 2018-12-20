@@ -1,0 +1,37 @@
+<link href="css/x5/base.css" rel="stylesheet">
+<link href="css/x5/form.css" rel="stylesheet">
+<div class="white-bg border-left animated fadeInRight" full-scroll ng-controller="messageReadCtrl">
+	<div class="row wrapper">
+		<div class="ibox">
+			<div class="ibox-title no-borders">
+				<h5>{{title}}</h5>
+				<div class="ibox-tools">		
+					<a ng-click="close()"><i class="fa fa-times"></i></a>
+				</div>
+			</div>
+			<div class="ibox-content">
+				<form class="form-horizontal">
+					<table class="table table-bordered table-striped table-hover">
+						<tr>
+						<th><span>{{'insideMessage.subject' | translate}}:</span></th>
+						<td>{{sysMessage.subject}}</td>
+						</tr>
+						<tr>
+							<th><span>{{'insideMessageList_Sender' | translate}}:</span></th>
+							<td>{{sysMessage.owner}}</td>
+						</tr>
+						<tr>
+							<th><span>{{'insideMessageList_Sendingtime' | translate}}:</span></th>
+							<td>{{sysMessage.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+						</tr>
+						<tr>
+							<th>{{'insideMessageList_content' | translate}}:</th>
+							<td>{{sysMessage.content}} 
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

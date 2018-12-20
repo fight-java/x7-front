@@ -1,0 +1,84 @@
+<div class="white-bg animated fadeInRight" ng-controller="completedCtrl">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="ibox" ht-data-table="dataTable" url="${bpmRunTime}/runtime/instance/v1/completed">
+			<div class="ibox-title no-borders">
+				<div class="col-md-10 ">
+					<div class="input-group col-md-3 tools-panel">
+						<span class="input-group-addon">
+							<i class="fa fa-search"></i>
+						</span>
+						<input type="text" name="search" class="form-control input-sm" placeholder="{{'processMatters_search_placeholder' | translate}}"
+							   title="{{'processMatters_search_title' | translate}}" ht-quick-search="subject_,proc_def_name_">
+					</div>
+				</div>
+				<div class="col-md-2" table-tools></div>
+			</div>
+			<div class="ibox-content" style="display:none;">
+				<form class="form-horizontal">
+	                <div class="form-group">
+						<label class="col-md-1 control-label">{{'proxySettings_subject' | translate}}</label>
+						<div class="col-md-2">
+							<input type="text" placeholder="{{'proxySettings_subject' | translate}}" ht-query="subject_"
+								   class="form-control input-sm">
+						</div>
+						<label class="col-md-1 control-label">{{'proxySettings_flowName' | translate}}</label>
+						<div class="col-md-2">
+							<input type="text" placeholder="{{'proxySettings_flowName' | translate}}" ht-query="proc_def_name_"
+								   class="form-control input-sm">
+						</div>
+						<label class="col-md-1 control-label">{{'state' | translate}}</label>
+	                    <div class="col-md-2">
+	                    	<select class="form-control input-sm" ht-query="wfInst.status_" operation="equal">
+	                    		<option value=""></option>
+	                    		<option value="manualend">{{'processMatters_manualend' | translate}}</option>
+								<option value="end">{{'processMatters_end' | translate}}</option>
+	                    	</select>
+	                    </div>
+	                    <div class="col-md-2">
+	                        <button class="btn btn-primary btn-sm" type="button" 
+	                        		ht-search><i class="fa fa-search"></i> {{'search' | translate}}</button>
+	                        <button class="btn btn-default btn-sm" type="button" 
+	                        		ht-reset><i class="fa fa-reply-all"></i> {{'reset' | translate}}</button>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                	<label class="col-md-1 control-label">{{'createTime' | translate}}</label>
+	                    <div class="col-md-2">
+	                    	<input date-range-picker clearable="true" readonly style="background-color: #fff;" class="form-control input-sm date-picker" type="text"
+	                    		   ht-query="wfInst.create_time_" ng-model="wfInst.create_time_" operation="between"/>
+	                    </div>
+	                </div>
+	            </form>
+			</div>
+			<div class="ibox-footer">
+				<table class="table table-bordered table-striped table-hover" ht-table>
+					<tbody>
+						<tr ng-repeat="row in dataTable.rows track by $index">
+							<td width="30" class="center" selectable="true">
+								<div class="checkbox"><input type="checkbox" ht-select="row"><label></label></div>
+							</td>
+							<td width="50" ng-bind="$index+1" title="{{'number' | translate}}"></td>
+							<td width="220" title="{{'proxySettings_subject' | translate}}">
+								<a ui-sref="receivedProcess.instanceDetail({id:row.id,state:'receivedProcess.handled'})" ng-bind="row.subject"></a>
+							</td>
+							<td width="120" ht-field="row.procDefName" title="{{'proxySettings_flowName' | translate}}" sortable="true"></td>
+							<td width="120" ht-field="row.createTime | date:'yyyy-MM-dd HH:mm:ss'" title="{{'createTime' | translate}}"></td>
+							<td width="120" title="{{'processMatters_continuous_date' | translate}}" ng-bind="fomatterDuration(row.duration)"></td>
+							<td width="60" class="col-md-1" ng-switch="row.status" title="{{'state' | translate}}">
+								<span class="badge badge-primary" ng-switch-when="manualend">{{'processMatters_manualend' | translate}}</span>
+								<span class="badge badge-primary" ng-switch-when="end">{{'processMatters_end' | translate}}</span>
+							</td>
+							<td width="80" title="{{'operation' | translate}}">
+								<button  ng-click="toCopyTo(row.id)" class="btn btn-info btn-sm"><i class="fa fa-file-text"></i> {{'processMatters_forwarding' | translate}}</button>
+							</td>
+						</tr>
+						<tr class="no-row">
+							<td colspan="7"><i class="fa fa-info-circle"></i> {{'emptyResult' | translate}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ht-pagination></div>
+			</div>
+		</div>
+	</div>
+</div>

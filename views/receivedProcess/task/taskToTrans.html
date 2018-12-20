@@ -1,0 +1,235 @@
+<div ng-controller="toTransCtrl">
+<ul  class="nav nav-tabs">
+	<li class="active">
+		<a href="javascript:#Flowsetting"  data-toggle="tab">
+			 {{'flowSetting' | translate}}
+		</a>
+	</li>
+	<li><a href="javascript:#circulation_history" data-toggle="tab">{{'circulation_history' | translate}}</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+	<div class="tab-pane fade in active" id="Flowsetting">
+		<div class="toolbar-panel col-md-12">
+	<form id="transForm" action="saveTrans" method="post">
+	<table cellspacing="0" class="table-form">
+		<tr> 
+			<th width="23%">
+				<abbr ht-tip title="{{'for_example' | translate}}">{{'task_passing_rules' | translate}}：</abbr>
+	 		</th>
+			<td colspan="3">
+			 	<div class="radio radio-info radio-inline">
+					<input type="radio" id="setVote(1)" name="type" checked="checked" ng-click="setVote(1)"/>
+					<label for="setVote(1)"> {{'full_vote' | translate}}</label>
+				</div> 
+				<div class="radio radio-info radio-inline">
+					<input type="radio" name="type" id="type2" ng-click="setVote(2)"/>
+					<label for="type2"> {{'one_vote_veto' | translate}}</label>
+				</div> 					
+				<div class="radio radio-info radio-inline">
+					<input type="radio" name="type" id="setVote(3)"  value="agree"  ng-click="setVote(3)"/>
+					<label for="setVote(3)"> {{'one_vote_agree' | translate}}</label>
+				</div> 					
+				<div class="radio radio-info radio-inline">
+					<input type="radio" name="type"  id="setVote(4)" value="custom"  ng-click="setVote(4)"/>
+					<label for="setVote(4)"> {{'customize' | translate}}</label>
+				</div> 					
+			
+			</td>
+		</tr>
+		<tr class="hight" hidden="true">
+			<th>
+				<abbr class="pull-right" ht-tip 
+					  title="{{'for_example_type' | translate}}<br/>
+					  		{{'absolute' | translate}}<br/>
+							{{'three_people_agree' | translate}}<br/>
+							{{'the_mission_passed_and_end' | translate}}">{{'count_tickets_strategy' | translate}}：</abbr>
+			</th>
+			<td colspan="3">
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.decideType" name="decideType" id="decideType_agree" value="agree" validate="{required:true}" checked="checked"/>
+					<label for="decideType_agree"> {{'agree_vote' | translate}}</label>
+				</div> 	
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.decideType" name="decideType" id="decideType_refuse"  value="refuse" validate="{required:true}"/>
+					<label for="decideType_refuse"> {{'veto' | translate}}</label>
+				</div> 
+				
+			</td>
+		</tr>
+		<tr class="hight" hidden="true"> 
+			<th><span class="pull-right">{{'voting_type' | translate}}：</span></th>
+			<td>
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.voteType" value="amount" id="voteType_amount"  ng-click="voteTypeChange(this)" name="voteType" validate="{required:true}"/>
+					<label for="voteType_amount"> {{'absolute_votes' | translate}}</label>
+				</div> 
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.voteType"  value="percent" id="voteType_percent"   ng-click="voteTypeChange(this)" name="voteType" checked="checked" validate="{required:true}"/>
+					<label for="voteType_percent"> {{'percentage' | translate}}</label>
+				</div>
+				
+				
+			</td>
+			<th ><span class="pull-right">{{'votes_number' | translate}}：</span></th>
+			<td>
+				<input type="text" name="voteAmount" ng-model="data.voteAmount" id="voteAmount" value="1" size="5" validate="{required:true,number:true}">
+				<span id="voteAmountUnit">%</span>
+			</td>
+		</tr>
+			<tr> 
+			<th>{{'circulation_type' | translate}}：</th>
+			<td>
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.signType" id="parallel" name="signType" value="parallel" validate="{required:true}" checked="checked" />
+					<label for="parallel"> {{'parallel' | translate}}</label>
+				</div>
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.signType" id="seq" name="signType" value="seq" validate="{required:true}" />
+					<label for="seq"> {{'serial' | translate}}</label>
+				</div>
+				
+			</td>
+			<th>{{'action_after_the_end_of_the_flow' | translate}}： </th>
+			<td>
+				<div class="radio radio-info radio-inline">
+					<input type="radio" ng-model="data.action" id="submit" name="action" value="submit" validate="{required:true}" checked="checked"/>
+					<label for="submit"> {{'submit' | translate}}</label>
+				</div>
+				<div class="radio radio-info radio-inline">
+					<input type="radio"ng-model="data.action" id="back" name="action" value="back" validate="{required:true}"/>
+					<label for="back"> {{'back' | translate}}</label>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th>{{'processMatters_messageType' | translate}}：</th>
+			<td colspan="3">
+				<div class="checkbox checkbox-info checkbox-inline" ng-repeat="(k,v) in handlerTypes track by $index">
+					<input id="{{k}}" type="checkbox" ht-checkbox ng-model="data.notifyType" value="{{k}}" />
+					<label for="{{k}}"> {{v}} </label>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<th>{{'circulating_personnel' | translate}}：</th>
+			<td colspan="3" >
+				<div>
+					<ul>
+						<li class="tags-li" ng-repeat="item in selectUsers track by $index">
+							<div class="tags-pan">
+							<a class="tags-remove-btn" href="javascript:;" ng-click="removeSelectedArr('selectUsers',item)"><i class="fa fa-close" ></i></a> 
+							<span  ng-bind="item.fullname"></span>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<input type="hidden" id="receiverId" ng-model="data.userIds" name="receiverIds" value="">
+				<div>
+				<a  ng-click="selectUser()" class="btn btn-default fa fa-user">{{'processMatters_selectUser' | translate}}</a>
+			</div>
+			</td>
+		</tr>
+		<tr> 
+			<th><span>{{'notification_content' | translate}}：</span></th>
+			<td colspan="3" >
+				<textarea class="inputText" ng-model="data.opinion" name="opinion" rows="4"   cols="50" style="width: 492px;padding:6.5px" validate="{required:true}"></textarea>
+			</td>
+		</tr>
+		</table>
+	</form> 
+	</div>
+	</div>
+	<div class="tab-pane fade" id="circulation_history">
+	<div class="text-center" id="not_circulation_history" ng-if="transRecordList.length == 0"  style="height: 301px;line-height:301px; text-align: center;" class="toolbar-panel col-md-12"  >
+	<em>{{'noHistoryProcess' | translate}}</em>
+	</div>
+		<div class="toolbar-panel col-md-12">
+		<table cellspacing="0" class="table-form">
+			<tbody ng-repeat="record in transRecordList">
+				<tr>
+					<th>{{'circulation_time' | translate}}:</th>
+					<td colspan="5">
+						{{record.transTime | date:'yyyy-MM-dd HH:mm:ss'}}
+					</td>
+				</tr>
+				<tr>
+					<th>{{'count_tickets_strategy' | translate}}:</th>
+					<td>
+						<span ng-if="record.decideType=='agree'">{{'agree_vote' | translate}}</span>
+						<span ng-if="record.decideType!='agree'">{{'否决票' | translate}}</span>
+					</td>
+					<th>{{'voting_type' | translate}}:</th>
+					<td>
+						<span ng-if="record.voteType=='amount'">{{'absolute_votes' | translate}}</span>
+						<span ng-if="record.voteType!='amount'">{{'percentage' | translate}}</span>
+					</td>
+					<th>{{'votes_number' | translate}}:</th>
+					<td>
+						{{record.voteAmount}}
+						<span ng-if="record.voteType=='percent'">%</span>
+					</td>
+				</tr>
+				<tr>
+					<th>{{'circulation_type' | translate}}：</th>
+					<td>
+						<span ng-if="record.signType=='parallel'">{{'parallel' | translate}}</span>
+						<span ng-if="record.signType!='parallel'">{{'serial' | translate}}</span>
+					</td>
+					<th>{{'action_after_the_end_of_the_flow' | translate}}:</th>
+					<td  colspan="3">
+						<span ng-if="record.action=='submit'">{{'submit' | translate}}</span>
+						<span ng-if="record.action!='submit'">{{'back' | translate}}</span>
+					</td>
+				</tr>
+				<tr ng-if="item in record.receiverList">
+					<th>{{'circulating_personnel' | translate}}：</th>
+					<td>
+						{{item.receiver }}
+					</td>
+					<th>{{'approval_state' | translate}}：</th>
+					<td>
+						<span ng-if="record.status == 2 && item.checkType == 0">{{'revoke_cancel' | translate}}</span>
+						<span ng-if="item.checkType == 1">{{'agree' | translate}}</span>
+						<span ng-if="item.checkType == 2">{{'opposition' | translate}}</span>
+						<span ng-if="item.checkType != 2 && item.checkType != 1 && item.checkType != 0">{{'not_approved' | translate}}</span>
+					</td>
+					<th>{{'processMatters_approval_opinion' | translate}}：</th>
+					<td>
+						<span ng-if="record.status == 2 && item.checkType == 0">{{'revoke_cancel' | translate}}</span>
+						<span ng-if="item.checkType == 1 || item.checkType == 2">{{item.opinion }}</span>
+						<span ng-if="item.checkType != 2 && item.checkType != 1 && item.checkType != 0">{{'not_approved' | translate}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="6"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</div>
+</div>
+
+
+	
+	<div class="toolbar-panel col-md-12" style="text-align:right;margin-bottom: 5px">
+		<div class="buttons" >
+			<a role="button" ng-click="saveTrans()" href="javascript:;" class="btn btn-primary btn-sm fa fa-save">{{'confirm' | translate}}</a>
+			<button ng-click="closeEdit();" class="btn btn-default btn-sm  fa fa-close">{{'cancle' | translate}}</button>
+		</div>
+	</div> 
+	</div>
+</div>
+<style type="text/css">
+fieldset.scheduler-border {
+	border: 1px groove #ddd !important;
+	padding: 0 0.4em 1.4em 0.8em !important;
+}
+
+.fa-add {
+	margin-top: -30px;
+}
+
+.panel-tool a {
+	background-color: #fff;
+}
+</style>
